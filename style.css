@@ -1,0 +1,25 @@
+/* Mengubah warna latar belakang aplikasi */
+body {
+    background-color: #0E1117;
+    color: white;
+}
+
+/* Sidebar styling */
+[data-testid="stSidebar"] {
+    background-color: #262730;
+}
+
+/* Header styling */
+h1, h2, h3 {
+    color: white;
+}
+
+/* Table styling */
+table {
+    color: white;
+}
+
+/* Link styling */
+a {
+    color: #4C67F5;
+}
