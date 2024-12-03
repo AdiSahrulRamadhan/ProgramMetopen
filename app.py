@@ -96,11 +96,6 @@ elif selected == "Model":
     st.write("Prediksi yang kami buat menggunakan model terbaik yakni Naive Bayes dengan Seleksi Fitur ANOVA F-value.")
     st.write("Masukkan data di bawah ini untuk memprediksi kemungkinan penyakit jantung.")
 
-    # Muat model, scaler, dan selector
-import pandas as pd
-import streamlit as st
-from joblib import load
-
 # Muat model, scaler, dan selector
 model = load('naive_bayes_model.joblib')
 scaler = load('scaler.joblib')
