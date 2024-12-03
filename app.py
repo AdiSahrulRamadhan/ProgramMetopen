@@ -151,6 +151,19 @@ elif selected == "Model":
             prediction = model.predict(user_input_selected)
             probability = model.predict_proba(user_input_selected)
 
-            # Hasil prediksi
-            st.write(f"**Hasil Prediksi:** {'Diagnosa Penyakit Jantung' if prediction[0] == 1 else 'Tidak Mengidap Penyakit Jantung'}")
-            st.write(f"**Probabilitas:** {probability[0][1]*100:.2f}% kemungkinan penyakit jantung")
+            # Hasil prediksi dengan background hijau
+            result_message = f"Hasil Prediksi: {'Diagnosa Penyakit Jantung' if prediction[0] == 1 else 'Tidak Mengidap Penyakit Jantung'}"
+            probability_message = f"Probabilitas: {probability[0][1]*100:.2f}% kemungkinan penyakit jantung"
+
+            # Gunakan expander untuk efek pop-up
+            with st.expander("Lihat Hasil Prediksi dan Data Input"):
+                st.markdown(f"""
+                    <div style="background-color: #d4edda; padding: 20px; border-radius: 5px;">
+                        <h3 style="color: red;">{result_message}</h3>
+                        <p style="color: black;">{probability_message}</p>
+                    </div>
+                """, unsafe_allow_html=True)
+
+                # Tampilkan tabel input yang dimasukkan pengguna
+                st.subheader("Data Input yang Dimasukkan:")
+                st.table(user_input)

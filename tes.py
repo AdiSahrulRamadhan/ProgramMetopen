@@ -8,7 +8,7 @@ from sklearn.feature_selection import SelectKBest, f_classif
 from joblib import dump
 
 # Load dataset
-df_heart = pd.read_csv('heart_scaled.csv')  # Ganti dengan nama file cleaned Anda
+df_heart = pd.read_csv('heart_cleaned.csv')  # Ganti dengan nama file cleaned Anda
 
 # Pisahkan fitur (X) dan target (y)
 X = df_heart.drop(columns=['target'])  # Pastikan kolom 'target' adalah label
