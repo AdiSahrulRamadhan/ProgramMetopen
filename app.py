@@ -170,4 +170,4 @@ elif selected == "Model":
             # Hasil prediksi
             st.write(f"Jenis Kelamin: {sex}, Tipe Nyeri Dada: {cp}, Gula Darah Puasa: {fbs}, Hasil Elektrokardiografi: {restecg}, Angina Induksi Olahraga: {exang}, Kemiringan Segmen ST: {slope}, Jumlah Pembuluh Darah: {ca}, Thalassemia: {thal}")
             st.write(f"**Hasil Prediksi:** {'Diagnosa Penyakit Jantung' if prediction[1] == 0 else 'Tidak Mengidap Penyakit Jantung'}")
-            st.write(f"**Probabilitas:** {probability[0][1]*100:.2f}% kemungkinan penyakit jantung")
+            st.write(f"**Probabilitas:** {probability[1][0]*100:.2f}% kemungkinan penyakit jantung")
