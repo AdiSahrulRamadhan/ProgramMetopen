@@ -102,72 +102,79 @@ elif selected == "Model":
     selector = load('selector.joblib')  # Muat selektor fitur
 
     # Input data dari pengguna
-    age = st.number_input("Usia", min_value=0, max_value=120, step=1, value=25)  # Default value 25
-    sex = st.selectbox("Jenis Kelamin", ["Pilih...", "Laki-laki (1)", "Perempuan (0)"])
-    sex = 1 if sex == "Laki-laki (1)" else 0 if sex == "Perempuan (0)" else None
-    cp = st.selectbox("Tipe Nyeri Dada", ["Pilih...", "Tidak ada nyeri dada (0)", "Nyeri dada ringan (1)", "Nyeri dada sedang (2)", "Nyeri dada parah (3)"])
-    cp = int(cp.split('(')[-1].split(')')[0]) if cp != "Pilih..." else None
+    age = st.number_input("Usia", min_value=0, max_value=120, step=1, value=25, format="%d")  # Default value 25
+    st.text("Usia pasien dalam tahun.")
+
+    sex = st.selectbox("Jenis Kelamin", ["Pilih...", "Laki-laki", "Perempuan"])
+    st.text("Jenis kelamin pasien. Pilih antara Laki-laki atau Perempuan.")
+
+    cp = st.selectbox("Tipe Nyeri Dada", ["Pilih...", 0, 1, 2, 3])
+    st.text("Kode untuk tipe nyeri dada: 0: Tidak ada, 1: Tipe 1, 2: Tipe 2, 3: Tipe 3.")
+
     trestbps = st.number_input("Tekanan Darah Saat Istirahat (mm Hg)", min_value=50, max_value=200, step=1, value=120)
+    st.text("Tekanan darah saat istirahat dalam satuan mm Hg.")
+
     chol = st.number_input("Kolesterol Serum (mg/dL)", min_value=100, max_value=600, step=1, value=200)
-    fbs = st.selectbox("Gula Darah Puasa (> 120 mg/dL)", ["Pilih...", "Tidak (0)", "Ya (1)"])
-    fbs = 1 if fbs == "Ya (1)" else 0 if fbs == "Tidak (0)" else None
-    restecg = st.selectbox("Hasil Elektrokardiografi", ["Pilih...", "Normal (0)", "Gelombang ST abnormal (1)", "Peningkatan gelombang T (2)"])
-    restecg = int(restecg.split('(')[-1].split(')')[0]) if restecg != "Pilih..." else None
+    st.text("Kolesterol serum dalam satuan mg/dL.")
+
+    fbs = st.selectbox("Gula Darah Puasa (> 120 mg/dL)", ["Pilih...", 0, 1])
+    st.text("Status gula darah puasa: 0: Normal, 1: Lebih dari 120 mg/dL.")
+
+    restecg = st.selectbox("Hasil Elektrokardiografi", ["Pilih...", 0, 1, 2])
+    st.text("Hasil elektrokardiografi: 0: Normal, 1: ST-T abnormal, 2: Hipertrofi ventrikel.")
+
     thalach = st.number_input("Detak Jantung Maksimum", min_value=50, max_value=220, step=1, value=150)
-    exang = st.selectbox("Angina Induksi Olahraga", ["Pilih...", "Tidak ada angina (0)", "Angina (1)"])
-    exang = 1 if exang == "Angina (1)" else 0 if exang == "Tidak ada angina (0)" else None
+    st.text("Detak jantung maksimum yang tercatat.")
+
+    exang = st.selectbox("Angina Induksi Olahraga", ["Pilih...", 0, 1])
+    st.text("Indikasi angina akibat olahraga: 0: Tidak, 1: Ya.")
+
     oldpeak = st.number_input("Depresi ST (dalam mm)", min_value=0.0, max_value=10.0, step=0.1, value=1.0)
-    slope = st.selectbox("Kemiringan Segmen ST", ["Pilih...", "Turun (0)", "Rata (1)", "Naik (2)"])
-    slope = int(slope.split('(')[-1].split(')')[0]) if slope != "Pilih..." else None
-    ca = st.selectbox("Jumlah Pembuluh Darah Berwarna Fluoroskopi", ["Pilih...", "0 pembuluh (0)", "1 pembuluh (1)", "2 pembuluh (2)", "3 pembuluh (3)", "4 pembuluh (4)"])
-    ca = int(ca.split('(')[-1].split(')')[0]) if ca != "Pilih..." else None
-    thal = st.selectbox("Thalassemia", ["Pilih...", "Tidak (0)", "Defisiensi (1)", "Penyakit Thalassemia (2)", "Mild (3)"])
-    thal = int(thal.split('(')[-1].split(')')[0]) if thal != "Pilih..." else None
+    st.text("Nilai depresi segmen ST pada saat tes olahraga.")
+
+    slope = st.selectbox("Kemiringan Segmen ST", ["Pilih...", 0, 1, 2])
+    st.text("Kemiringan segmen ST setelah tes olahraga.")
+
+    ca = st.selectbox("Jumlah Pembuluh Darah Berwarna Fluoroskopi", ["Pilih...", 0, 1, 2, 3, 4])
+    st.text("Jumlah pembuluh darah berwarna pada fluoroskopi.")
+
+    thal = st.selectbox("Thalassemia", ["Pilih...", 0, 1, 2, 3])
+    st.text("Status thalassemia: 0: Tidak, 1: Fix defect, 2: Reversable defect, 3: Normal.")
 
     # Validasi input
     if st.button("Prediksi"):
         # Periksa apakah ada input yang kosong atau tidak valid
         if (
-            sex is None
-            or cp is None
-            or fbs is None
-            or restecg is None
-            or exang is None
-            or slope is None
-            or ca is None
-            or thal is None
+            sex == "Pilih..."
+            or cp == "Pilih..."
+            or fbs == "Pilih..."
+            or restecg == "Pilih..."
+            or exang == "Pilih..."
+            or slope == "Pilih..."
+            or ca == "Pilih..."
+            or thal == "Pilih..."
         ):
             st.error("Harap isi semua Data dengan benar sebelum melakukan prediksi!")
         else:
             # Proses input ke DataFrame
             user_input = pd.DataFrame(
                 [[
-                    age, sex, cp, trestbps, chol, fbs, restecg,
-                    thalach, exang, oldpeak, slope, ca, thal
+                    age, 1 if sex == "Laki-laki" else 0, cp, trestbps, chol, fbs,
+                    restecg, thalach, exang, oldpeak, slope, ca, thal
                 ]],
-                columns=['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg',
-                        'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
+                columns=['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
             )
 
-            # Preprocessing dengan scaler
-            try:
-                user_input_scaled = scaler.transform(user_input)
-            except ValueError as e:
-                st.error(f"Error pada proses skala data: {e}")
-                st.stop()
+            # Scaling input dan seleksi fitur
+            user_input_scaled = scaler.transform(user_input)
+            user_input_selected = selector.transform(user_input_scaled)
 
-            # Seleksi fitur dengan selector
-            try:
-                user_input_selected = selector.transform(user_input_scaled)
-            except ValueError as e:
-                st.error(f"Error pada seleksi fitur: {e}")
-                st.stop()
-
-            # Prediksi
+            # Prediksi hasil
             prediction = model.predict(user_input_selected)
-            probability = model.predict_proba(user_input_selected)
+            prediction_prob = model.predict_proba(user_input_selected)[0][1]
 
-            # Hasil prediksi
-            st.write(f"Jenis Kelamin: {sex}, Tipe Nyeri Dada: {cp}, Gula Darah Puasa: {fbs}, Hasil Elektrokardiografi: {restecg}, Angina Induksi Olahraga: {exang}, Kemiringan Segmen ST: {slope}, Jumlah Pembuluh Darah: {ca}, Thalassemia: {thal}")
-            st.write(f"**Hasil Prediksi:** {'Diagnosa Penyakit Jantung' if prediction[1] == 0 else 'Tidak Mengidap Penyakit Jantung'}")
-            st.write(f"**Probabilitas:** {probability[1][0]*100:.2f}% kemungkinan penyakit jantung")
+            # Tampilkan hasil prediksi
+            if prediction[0] == 1:
+                st.success(f"Prediksi: Penyakit jantung terdeteksi dengan probabilitas {prediction_prob:.2f}")
+            else:
+                st.success(f"Prediksi: Tidak ada penyakit jantung dengan probabilitas {prediction_prob:.2f}")
