@@ -104,17 +104,17 @@ elif selected == "Model":
     # Input data dari pengguna
     age = st.number_input("Usia", min_value=0, max_value=120, step=1, value=25, format="%d")  # Default value 25
     sex = st.selectbox("Jenis Kelamin", ["Pilih...", "Laki-laki", "Perempuan"])
-    cp = st.selectbox("Tipe Nyeri Dada", ["Pilih...", 0, 1, 2, 3])
+    cp = st.selectbox("Tipe Nyeri Dada", ["Pilih...", "Tidak ada nyeri dada (0)", "Nyeri dada ringan (1)", "Nyeri dada sedang (2)", "Nyeri dada parah (3)"])
     trestbps = st.number_input("Tekanan Darah Saat Istirahat (mm Hg)", min_value=50, max_value=200, step=1, value=120)
     chol = st.number_input("Kolesterol Serum (mg/dL)", min_value=100, max_value=600, step=1, value=200)
-    fbs = st.selectbox("Gula Darah Puasa (> 120 mg/dL)", ["Pilih...", 0, 1])
-    restecg = st.selectbox("Hasil Elektrokardiografi", ["Pilih...", 0, 1, 2])
+    fbs = st.selectbox("Gula Darah Puasa (> 120 mg/dL)", ["Pilih...", "Tidak (0)", "Ya (1)"])
+    restecg = st.selectbox("Hasil Elektrokardiografi", ["Pilih...", "Normal (0)", "Gelombang ST abnormal (1)", "Peningkatan gelombang T (2)"])
     thalach = st.number_input("Detak Jantung Maksimum", min_value=50, max_value=220, step=1, value=150)
-    exang = st.selectbox("Angina Induksi Olahraga", ["Pilih...", 0, 1])
+    exang = st.selectbox("Angina Induksi Olahraga", ["Pilih...", "Tidak ada angina (0)", "Angina (1)"])
     oldpeak = st.number_input("Depresi ST (dalam mm)", min_value=0.0, max_value=10.0, step=0.1, value=1.0)
-    slope = st.selectbox("Kemiringan Segmen ST", ["Pilih...", 0, 1, 2])
-    ca = st.selectbox("Jumlah Pembuluh Darah Berwarna Fluoroskopi", ["Pilih...", 0, 1, 2, 3, 4])
-    thal = st.selectbox("Thalassemia", ["Pilih...", 0, 1, 2, 3])
+    slope = st.selectbox("Kemiringan Segmen ST", ["Pilih...", "Turun (0)", "Rata (1)", "Naik (2)"])
+    ca = st.selectbox("Jumlah Pembuluh Darah Berwarna Fluoroskopi", ["Pilih...", "0 pembuluh (0)", "1 pembuluh (1)", "2 pembuluh (2)", "3 pembuluh (3)", "4 pembuluh (4)"])
+    thal = st.selectbox("Thalassemia", ["Pilih...", "Tidak (0)", "Defisiensi (1)", "Penyakit Thalassemia (2)", "Mild (3)"])
 
     # Validasi input
     if st.button("Prediksi"):
